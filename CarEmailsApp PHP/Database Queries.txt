@@ -1,0 +1,36 @@
+=================================================================================
+To see an aggregation of submitted car emails:
+SELECT 	u1.firstname, u1.licenseID, u2.firstname, u2.licenseID,
+		m.subject, l.locationName, m.date, m.message, m.emotion
+FROM 	user AS u1 INNER JOIN message AS m ON u1.licenseID = m.from_user
+		INNER JOIN user AS u2 ON m.to_user = u2.licenseID
+		INNER JOIN location AS l ON l.locationID = m.locationID
+ORDER BY m.date;
+==================================================================================
+To search for messages left by someone with his/her license ID:
+SELECT 	u1.firstname, u1.licenseID, u2.firstname, u2.licenseID,
+		m.subject, l.locationName, m.date, m.message, m.emotion
+FROM 	user AS u1 INNER JOIN message AS m ON u1.licenseID = m.from_user
+		INNER JOIN user AS u2 ON m.to_user = u2.licenseID
+		INNER JOIN location AS l ON l.locationID = m.locationID
+WHERE 	u1.licenseID = "$licenseid"
+ORDER BY m.date;
+==================================================================================
+To register a user
+INSERT INTO user (licenseID, firstname, lastname, email, address, carID, password)
+VALUES	('$licenseid', '$firstname', '$lastname', '$email', '$address', '$carid', '$pwd');
+==================================================================================
+To check if the user is registered
+SELECT 	CONCAT(firstname, ' ', lastname) AS name
+FROM 	user
+WHERE 	licenseID = "$licenseid";
+==================================================================================
+To show the inbox of a particular user using his/her license ID:
+SELECT 	u1.firstname, u1.licenseID, u2.firstname, u2.licenseID,
+		m.subject, l.locationName, m.date, m.message, m.emotion
+FROM 	user AS u1 INNER JOIN message AS m ON u1.licenseID = m.from_user
+		INNER JOIN user AS u2 ON m.to_user = u2.licenseID
+		INNER JOIN location AS l ON l.locationID = m.locationID
+WHERE 	u2.licenseID = "$licenseid"
+ORDER BY m.date;
+==================================================================================
